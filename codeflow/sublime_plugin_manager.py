@@ -1,23 +1,29 @@
 import sublime_info
 import subprocess
+from sublime_text_plugin import SublimeTextPlugin
 
 class SublimePluginManager():
 
 	def __init__(self):
 		pass
 
-	def install(self, sublime_text_plugin):
+	def __install(self, sublime_text_plugin):
 
 		has_subl, subl_version, package_dir = self.__has_sublime()
 		if not has_subl:
 			print('Sublime not installed.')
 			return False
 
-		print('Sublime Version: %s' % subl_version)
-		print('Sublime Package Dir: %s' % package_dir)
+		#print('Sublime Version: %s' % subl_version)
+		#print('Sublime Package Dir: %s' % package_dir)
 		print('Installing sublime plugin from: %s' % sublime_text_plugin.get_repo())
 
 		subprocess.call(['git', 'clone', sublime_text_plugin.get_repo(), ('%s/%s' % (package_dir, sublime_text_plugin.get_name()))])
+
+	def install_plugins(self, plugin_list):
+		for repo in plugin_list:
+			plugin = SublimeTextPlugin(repo)
+			self.__install(plugin)
 
 	def __has_sublime(self):
 		try:

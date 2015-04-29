@@ -1,4 +1,6 @@
 {
+	"author": "William Guedes",
+	"tag": "Node Development",
 	"application": "ST3",
 	"plugins": [
 		"git@github.com:xjsender/haoide.git",

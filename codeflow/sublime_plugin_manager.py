@@ -1,6 +1,7 @@
 import sublime_info
 import subprocess
 from sublime_text_plugin import SublimeTextPlugin
+import os
 
 class SublimePluginManager():
 
@@ -16,11 +17,17 @@ class SublimePluginManager():
 
 		#print('Sublime Version: %s' % subl_version)
 		#print('Sublime Package Dir: %s' % package_dir)
-		print('Installing sublime plugin from: %s' % sublime_text_plugin.get_repo())
 
-		subprocess.call(['git', 'clone', sublime_text_plugin.get_repo(), ('%s/%s' % (package_dir, sublime_text_plugin.get_name()))])
+		if os.path.exists(('%s/%s' % (package_dir, sublime_text_plugin.get_name()))):
+			print('%s already installed.' % sublime_text_plugin.get_name())
+		else:
+			print('Installing sublime plugin from: %s' % sublime_text_plugin.get_name())
+			f = open(os.devnull, 'w')
+			subprocess.call(['git', 'clone', sublime_text_plugin.get_repo(), ('%s/%s' % (package_dir, sublime_text_plugin.get_name()))], stdout=f, stderr=subprocess.STDOUT)
+			#f.close()
 
 	def install_plugins(self, plugin_list):
+		print('\nInstalling Plugins...')
 		for repo in plugin_list:
 			plugin = SublimeTextPlugin(repo)
 			self.__install(plugin)

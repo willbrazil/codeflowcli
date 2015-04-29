@@ -1,0 +1,7 @@
+{
+	"application": "ST3",
+	"plugins": [
+		"git@github.com:xjsender/haoide.git",
+		"git@github.com:netatoo/phoenix-theme.git"
+	]
+}

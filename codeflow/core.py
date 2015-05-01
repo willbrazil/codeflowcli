@@ -14,7 +14,8 @@ def load_flow_from_gist(gist_url, gist_file):
 
 def main2():
 	n = SublimeTextApplication()
-	n.get_plugin_mgr().install_plugins(['git@github.com:Microsoft/TypeScript-Sublime-Plugin.git'])
+	#n.install(customize=True)
+	#n.get_plugin_mgr().install_plugins(['git@github.com:Microsoft/TypeScript-Sublime-Plugin.git'])
 
 	#b = BracketsApplication()
 	#b.install()
@@ -26,7 +27,7 @@ def main(args = sys.argv[1:]):
 
 	flow = parse(load_flow_from_gist(gist_repo, gist_file))
 	for app in flow['applications']:
-		app.install()
+		app.install(customize=True)
 			
 		#app.install_plugins()
 	#plugin_mgr = flow['plugin_mgr']

@@ -6,4 +6,4 @@ class SublimeTextPlugin():
 		return self.repo
 
 	def get_name(self):
-		return self.repo.split('/')[1].split('.')[0]
+		return self.repo[str.rfind(self.repo.encode('utf-8'), '/')+1:].split('.')[0]

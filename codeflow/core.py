@@ -4,6 +4,7 @@ import json
 import sys
 from .applications.sublimetext.sublime_application import SublimeTextApplication
 from .applications.brackets.brackets_application import BracketsApplication
+from .environment import Environment
 
 def load_flow_from_gist(gist_url, gist_file):
 	subprocess.call(['git', 'clone', gist_url, '/tmp/codeflow_gist'])
@@ -20,7 +21,7 @@ def main2():
 	#b = BracketsApplication()
 	#b.install()
 
-def main(args = sys.argv[1:]):
+def main(args = sys.argv[1:], env=Environment()):
 
 	gist_repo = args[0]
 	gist_file = args[1]

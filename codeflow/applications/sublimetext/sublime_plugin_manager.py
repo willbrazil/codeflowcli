@@ -11,7 +11,7 @@ class SublimePluginManager():
 	def __install(self, sublime_text_plugin):
 		has_subl, subl_version, package_dir = self.__has_sublime()
 		if not has_subl:
-			print('Sublimei not installed.')
+			print('Sublime not installed.')
 			return False
 
 		#print('Sublime Version: %s' % subl_version)

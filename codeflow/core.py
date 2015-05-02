@@ -22,7 +22,7 @@ def main2():
 
 def main(args = sys.argv[1:], env=Environment()):
 
-	if len(args) <= 2:
+	if len(args) < 2:
 		print('Please provide a gist URL and gist file.\n i.e., codeflow https://gist.github.com/36f2a45f756a5832fa64.git salesforce')
 		return 1
 

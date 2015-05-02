@@ -11,10 +11,14 @@ def parse(flow):
 	applications = []
 
 	for item in flow['applications']:
-		print('Loading %s info.' % item['application'])
-		print('ITEM %s' % item)
-		app = APPLICATION_MAP[item['application']](item['custom'])
-		#custom_dict = item['custom']
-		applications.append(app)
+
+		if not item['application'] in APPLICATION_MAP:
+			print('Codeflow does not support %s yet.' % item['application'])
+		else:
+			print('Loading %s info.' % item['application'])
+			print('ITEM %s' % item)
+			app = APPLICATION_MAP[item['application']](item['custom'])
+			#custom_dict = item['custom']
+			applications.append(app)
 
 	return {'applications': applications}

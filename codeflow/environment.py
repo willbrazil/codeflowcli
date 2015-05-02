@@ -18,4 +18,4 @@ class Environment(object):
 		if self.is_test:
 			return (app_name in self.pre_installed_apps)
 
-		return not shutilwhich.which(name) == None
+		return not shutilwhich.which(app_name) == None

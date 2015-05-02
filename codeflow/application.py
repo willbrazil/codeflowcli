@@ -10,7 +10,7 @@ class Application(object):
 		self.support = support
 
 	def __is_supported_by_environment(self):
-		is_os_supported = not self.support[self.env.system] == None
+		is_os_supported = (not self.support[self.env.system] == None)
 		if is_os_supported:
 			return self.env.architecture[0] in self.support[self.env.system]
 
@@ -19,8 +19,6 @@ class Application(object):
 
 	def __get_install_script(self):
 		install_script_name = None
-
-		print('SYSTEM:::: %s' % self.env.system)
 
 		if self.env.system == 'Linux':
 			(bit, link) = self.env.architecture
@@ -69,3 +67,6 @@ class Application(object):
 
 	def customize(self):
 		pass
+
+	def is_installed(self):
+		return self.env.is_app_installed(self.app_name)

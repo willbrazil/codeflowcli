@@ -2,4 +2,8 @@ from .. import Application
 
 class NpmApplication(Application):
 	def __init__(self, custom_dict={}):
-		Application.__init__(self, 'npm')
+		suport = [
+			{'Linux', ['32']},
+			{'OSX', ['32, 64']}
+		]
+		Application.__init__(self, 'npm', support)

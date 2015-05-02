@@ -3,10 +3,16 @@ import shutilwhich
 from .environment import Environment
 
 class Application(object):
-	def __init__(self, app_name, custom_dict={}, env=Environment()):
+	def __init__(self, app_name, support, custom_dict={}, env=Environment()):
 		self.app_name = app_name
 		self.custom_dict = custom_dict
 		self.env = env
+		self.support = support
+
+	def __is_supported_by_environment(self):
+		is_os_supported = not self.support[self.env.system] == None
+		if is_os_supported:
+			return self.env.architecture[0] in self.support[self.env.system]
 
 	def is_installed(self, custom_name=None):
 
@@ -18,6 +24,9 @@ class Application(object):
 			return False
 
 		return not shutilwhich.which(name) == None
+
+	def __get_applications_dir(self):
+		return '%s/applications' % os.path.dirname(os.path.realpath(__file__))
 
 	def __get_install_script(self):
 		install_script_name = None
@@ -44,20 +53,21 @@ class Application(object):
 		if install_script_name == None:
 			raise ValueError('Operating system not valid.')
 
-		path = '%s/applications/%s/install_scripts/%s' % (os.path.dirname(os.path.realpath(__file__)), self.app_name, install_script_name)
+		path = '%s/%s/install_scripts/%s' % (self.__get_applications_dir(), self.app_name, install_script_name)
 		if os.path.exists(path):
 			return path
 		else:
 			raise IOError('Installation script not implemented.')
 
 	def install(self, customize=False):
-
-		# todo, check if app_name is valid folder
+		if not self.__is_supported_by_environment():
+			raise ValueError('The app is not supported by your current OS.')
 
 		if not self.is_installed():
 			print('Installing %s.' % self.app_name)
 			try:
-				os.system(self.__get_install_script())
+				if not self.env.is_test: # We don't want to try to install in case of test.
+					os.system(self.__get_install_script())
 			except StandardError:
 				raise
 		else:

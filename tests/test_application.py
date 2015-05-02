@@ -1,29 +1,15 @@
 import pytest
 from codeflow.application import Application
-from util import TestEnvironment, LinuxEnvironment
+from util import get_linux_32
 
 class TestApplication(object):
 
-	apps = [('node'), ('npm')]
-
-	@pytest.mark.parametrize("app_name", apps)
-	def test_install_linux_32(self, app_name):
-		app = Application(app_name, env=LinuxEnvironment('32bit', 'ELF'))
+	def test_install_linux_32(self):
+		support = {'Linux': ['32bit', '64bit']}
+		app = Application('random_app', support, env=get_linux_32())
 		assert True == app.install()
 
-	@pytest.mark.parametrize("app_name", apps)
-	def test_install_linux_128(self, app_name):
-		app = Application(app_name, env=LinuxEnvironment('128bit', 'ELF'))
+		support = {'Linux': ['64bit']}
+		app = Application('random_app', support, env=get_linux_32())
 		with pytest.raises(ValueError):
 			app.install()
-
-	@pytest.mark.parametrize("app_name", apps)
-	def test_install_linux_64(self, app_name):
-		app = Application(app_name, env=LinuxEnvironment('64bit', 'ELF'))
-		with pytest.raises(IOError):
-			app.install()
-
-	def test_install_invalid_os(self):
-		with pytest.raises(ValueError):
-			env = TestEnvironment(system='KzooOS')
-			Application('node', env=env).install()

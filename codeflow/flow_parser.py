@@ -7,7 +7,7 @@ APPLICATION_MAP = {
 }
 
 def parse(flow):
-	print('parsiong...')
+	print('parsing...')
 	applications = []
 
 	for item in flow['applications']:

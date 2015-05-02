@@ -3,7 +3,7 @@ from .sublime_plugin_manager import SublimePluginManager
 
 class SublimeTextApplication(Application):
 	def __init__(self, custom_dict={}):
-		Application.__init__(self, 'sublimetext', custom_dict)
+		Application.__init__(self, 'sublimetext', custom_dict, support={'Linux': ['32bit', '64bit'], 'Windows': ['32bit', '64bit']})
 		self.plugin_mgr = SublimePluginManager()
 
 	def is_installed(self):

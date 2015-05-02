@@ -22,33 +22,20 @@ class Application(object):
 				install_script_name = 'install_linux_32.sh'
 			elif bit == '64bit':
 				install_script_name = 'install_linux_64.sh'
-			else:
-				raise ValueError('Architecture not valid.')
 		elif system == 'Windows':
 			(bit, link) = architecture
 			if bit == '32bit':
 				install_script_name = 'install_windows_32.sh'
 			elif bit == '64bit':
 				install_script_name = 'install_windows_64.sh'
-			else:
-				raise ValueError('Architecture not valid.')
-
-		if install_script_name == None:
-			raise ValueError('Operating system not valid.')
 
 		path = '%s/%s/install_scripts/%s' % (self.__get_applications_dir(), self.app_name, install_script_name)
 		if os.path.exists(path):
 			return path
-		else:
-			raise IOError('Installation script not implemented.')
 
 	def install(self, system, architecture):
 		print('Installing %s.' % self.app_name)
-		try:
-			os.system(self.__get_install_script(system, architecture))
-		except StandardError:
-			raise
-
+		os.system(self.__get_install_script(system, architecture))
 		return True
 
 	def load_custom_dict(self, custom_dict):

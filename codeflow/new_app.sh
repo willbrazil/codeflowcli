@@ -12,9 +12,6 @@ else
 
 	touch "./applications/$APP_NAME/__init__.py"
 
-	mkdir "./applications/$APP_NAME/tests"
-	touch "./applications/$APP_NAME/tests/$test_file"
-
 	mkdir "./applications/$APP_NAME/install_scripts"
 	touch "./applications/$APP_NAME/install_scripts/install_linux_32.sh"
 	chmod +x "./applications/$APP_NAME/install_scripts/install_linux_32.sh"

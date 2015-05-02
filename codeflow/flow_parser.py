@@ -1,9 +1,10 @@
-from .applications import NodeApplication, SublimeTextApplication, NpmApplication
+from .applications import NodeApplication, SublimeTextApplication, NpmApplication, VirtualEnvApplication
 
 APPLICATION_MAP = {
 	'ST3': SublimeTextApplication,
 	'node': NodeApplication,
-	'npm': NpmApplication
+	'npm': NpmApplication,
+	'virtualenv': VirtualEnvApplication
 }
 
 def parse(flow):

@@ -1,16 +1,18 @@
 from .. import Application
 from .sublime_plugin_manager import SublimePluginManager
+import shutilwhich
 
 class SublimeTextApplication(Application):
 	def __init__(self, custom_dict={}):
 		Application.__init__(self, 'sublimetext', {'Linux': ['32bit', '64bit'], 'Windows': ['32bit', '64bit']}, custom_dict=custom_dict)
 		self.plugin_mgr = SublimePluginManager()
 
+	def is_installed(self):
+		return not shutilwhich.which('subl') == None
+
 	def customize(self):
-		print('CUSTOMIZING!!!!!! %s' % self.custom_dict)
+		print('Customizing %s' % self.app_name)
+		self.plugin_mgr.install_plugins(self.custom_dict['plugins'])	
 
 	def get_plugin_mgr(self):
 		return self.plugin_mgr
-
-	def is_installed(self):
-		return self.env.is_app_installed('subl')

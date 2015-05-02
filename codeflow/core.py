@@ -4,6 +4,7 @@ import json
 import sys
 from .applications.sublimetext.sublime_application import SublimeTextApplication
 from .environment import Environment
+from .errors import AppAlreadyInstalledError
 
 def load_flow_from_gist(gist_url, gist_file):
 	subprocess.call(['git', 'clone', gist_url, '/tmp/codeflow_gist'])
@@ -31,10 +32,14 @@ def main(args = sys.argv[1:], env=Environment()):
 
 	flow = parse(load_flow_from_gist(gist_repo, gist_file))
 	for app in flow['applications']:
-		if not app.is_installed():
-			app.install(customize=True)
-		else:
-			print('%s already installed.' % app.app_name)
+		try:
+			env.install_app(app)
+		except AppAlreadyInstalledError as e:
+			print('%s is already installed on the system.' % app.app_name)
+		except ValueError as e:
+			print(str(e))
+
+		app.customize()
 			
 		#app.install_plugins()
 	#plugin_mgr = flow['plugin_mgr']

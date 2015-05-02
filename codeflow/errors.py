@@ -1,0 +1,2 @@
+class AppAlreadyInstalledError(StandardError):
+	pass

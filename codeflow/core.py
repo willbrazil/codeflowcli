@@ -28,7 +28,10 @@ def main(args = sys.argv[1:], env=Environment()):
 
 	flow = parse(load_flow_from_gist(gist_repo, gist_file))
 	for app in flow['applications']:
-		app.install(customize=True)
+		if not env.is_app_installed(app.name):
+			app.install(customize=True)
+		else:
+			print('%s already installed.' % self.app_name)
 			
 		#app.install_plugins()
 	#plugin_mgr = flow['plugin_mgr']

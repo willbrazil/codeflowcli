@@ -1,4 +1,5 @@
 import platform
+import shutilwhich
 
 class Environment(object):
 
@@ -12,3 +13,9 @@ class Environment(object):
 
 		assert all(hasattr(type(self), attr) for attr in kargs.keys())
 		self.__dict__.update(**kargs)
+
+	def is_app_installed(self, app_name):
+		if self.is_test:
+			return (app_name in self.pre_installed_apps)
+
+		return not shutilwhich.which(name) == None

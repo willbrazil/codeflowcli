@@ -5,15 +5,15 @@ class TestEnvironment(Environment):
 		Environment.__init__(self, is_test=True, **kargs)
 
 class LinuxEnvironment(TestEnvironment):
-	def __init__(self, bit, linkage):
-		TestEnvironment.__init__(self, system='Linux', architecture=(bit, linkage))
+	def __init__(self, bit, linkage, pre_installed=[]):
+		TestEnvironment.__init__(self, system='Linux', architecture=(bit, linkage), pre_installed_apps=pre_installed)
 
 class WindowsEnvironment(TestEnvironment):
-	def __init__(self, bit, linkage):
-		TestEnvironment.__init__(self, system='Windows', architecture=(bit, linkage))
+	def __init__(self, bit, linkage, pre_installed=[]):
+		TestEnvironment.__init__(self, system='Windows', architecture=(bit, linkage), pre_installed_apps=pre_installed)
 
-def get_linux_32():
-	return LinuxEnvironment('32bit', 'ELF')
+def get_linux_32(pre_installed=[]):
+	return LinuxEnvironment('32bit', 'ELF', pre_installed=pre_installed)
 
 def get_linux_64():
 	return LinuxEnvironment('64bit', 'ELF')

@@ -14,17 +14,6 @@ class Application(object):
 		if is_os_supported:
 			return self.env.architecture[0] in self.support[self.env.system]
 
-	def is_installed(self, custom_name=None):
-
-		name = self.app_name
-		if not custom_name == None:
-			name = custom_name
-
-		if self.env.is_test and (not name in self.env.pre_installed_apps):
-			return False
-
-		return not shutilwhich.which(name) == None
-
 	def __get_applications_dir(self):
 		return '%s/applications' % os.path.dirname(os.path.realpath(__file__))
 
@@ -63,15 +52,12 @@ class Application(object):
 		if not self.__is_supported_by_environment():
 			raise ValueError('The app is not supported by your current OS.')
 
-		if not self.is_installed():
-			print('Installing %s.' % self.app_name)
-			try:
-				if not self.env.is_test: # We don't want to try to install in case of test.
-					os.system(self.__get_install_script())
-			except StandardError:
-				raise
-		else:
-			print('%s already installed.' % self.app_name)
+		print('Installing %s.' % self.app_name)
+		try:
+			if not self.env.is_test: # We don't want to try to install in case of test.
+				os.system(self.__get_install_script())
+		except StandardError:
+			raise
 
 		#if customize:
 		#		self.customize()

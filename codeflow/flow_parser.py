@@ -16,9 +16,7 @@ def parse(flow):
 			print('Codeflow does not support %s yet.' % item['application'])
 		else:
 			print('Loading %s info.' % item['application'])
-			print('ITEM %s' % item)
 			app = APPLICATION_MAP[item['application']](item['custom'])
-			#custom_dict = item['custom']
 			applications.append(app)
 
 	return {'applications': applications}

@@ -5,6 +5,8 @@ import sys
 from .applications.sublimetext.sublime_application import SublimeTextApplication
 from .environment import Environment
 from .errors import AppAlreadyInstalledError
+import argparse
+from .config_manager import ConfigManager
 
 def load_flow_from_gist(gist_url, gist_file):
 	subprocess.call(['git', 'clone', gist_url, '/tmp/codeflow_gist'])
@@ -21,21 +23,35 @@ def main2():
 	#b = BracketsApplication()
 	#b.install()
 
+
 def main(args = sys.argv[1:], env=Environment()):
 
-	gist_repo = args[0]
-	gist_file = args[1]
+	parser = argparse.ArgumentParser()
+	parser.add_argument('cmd')
+	parser.add_argument('gist_url')
+	parser.add_argument('gist_file')
+	args = parser.parse_args()
 
-	flow = parse(load_flow_from_gist(gist_repo, gist_file))
-	for app in flow['applications']:
-		try:
-			env.install_app(app)
-		except AppAlreadyInstalledError as e:
-			print('%s is already installed on the system.' % app.app_name)
-		except ValueError as e:
-			print(str(e))
+	gist_repo = args.gist_url
+	gist_file = args.gist_file
 
-		app.customize()
+	codeflow_json = load_flow_from_gist(gist_repo, gist_file)
+
+	if args.cmd == 'load':
+		configManager = ConfigManager(codeflow_json)
+		configManager.build_config_file()
+		pass	
+	elif args.cmd == 'install':
+		flow = parse(codeflow_json)
+		for app in flow['applications']:
+			try:
+				env.install_app(app)
+			except AppAlreadyInstalledError as e:
+				print('%s is already installed on the system.' % app.app_name)
+			except ValueError as e:
+				print(str(e))
+
+			app.customize()
 			
 		#app.install_plugins()
 	#plugin_mgr = flow['plugin_mgr']

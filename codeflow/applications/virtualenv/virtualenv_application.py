@@ -1,16 +1,20 @@
 from .. import Application
 import subprocess
+import os
 
 class VirtualEnvApplication(Application):
+
+	name = 'virtualenv'
+
 	def __init__(self, custom_dict={}):
-		Application.__init__(self, 'virtualenv', {'Linux': ['32bit', '64bit']}, custom_dict=custom_dict)
+		Application.__init__(self, VirtualEnvApplication.name, {'Linux': ['32bit', '64bit']}, custom_dict=custom_dict)
 
 	def create_env(self):
 		pass
 
 	def activate_env(self):
-		pass
-		#subprocess.call(["bash -c 'source ~/temporary_env_name/bin/activate'"], shell=True)
+		execfile('~/temporary_env_name/bin/activate_this.py')
+
 
 	def deactivate_env(self):
 		pass

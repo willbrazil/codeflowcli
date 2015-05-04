@@ -20,19 +20,25 @@ def main(args = sys.argv[1:], env=Environment()):
 
 	parser = argparse.ArgumentParser()
 	parser.add_argument('cmd')
-	parser.add_argument('gist_url')
-	parser.add_argument('gist_file')
+	parser.add_argument('-u', '--gist_url')
+	parser.add_argument('-f', '--gist_file')
 	args = parser.parse_args()
 
-	gist_repo = args.gist_url
-	gist_file = args.gist_file
-
-	codeflow_json = load_flow_from_gist(gist_repo, gist_file)
-
 	if args.cmd == 'load':
-		config_manager.build_config_file(apps_config, codeflow_json)
+		gist_repo = args.gist_url
+		gist_file = args.gist_file
+		codeflow_json = load_flow_from_gist(gist_repo, gist_file)
+		config_manager.build_config_file(gist_repo, gist_file, apps_config, codeflow_json)
 		pass	
 	elif args.cmd == 'install':
+
+		(gist_repo, gist_file) = config_manager.get_gist_info()
+
+		if not gist_file or not gist_repo:
+			print('Use load command before installing.')
+
+		codeflow_json = load_flow_from_gist(gist_repo, gist_file)
+
 		flow = parse(codeflow_json)
 		for app in flow['applications']:
 			try:

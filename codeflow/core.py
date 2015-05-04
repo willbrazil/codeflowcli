@@ -2,11 +2,11 @@ from .flow_parser import parse
 import subprocess
 import json
 import sys
-from .applications.sublimetext.sublime_application import SublimeTextApplication
 from .environment import Environment
 from .errors import AppAlreadyInstalledError
 import argparse
-from .config_manager import ConfigManager
+import config_manager
+from .applications import config as apps_config
 
 def load_flow_from_gist(gist_url, gist_file):
 	subprocess.call(['git', 'clone', gist_url, '/tmp/codeflow_gist'])
@@ -14,14 +14,6 @@ def load_flow_from_gist(gist_url, gist_file):
 	flow_json = json.loads(open(gist_path, 'r').read())
 	subprocess.call(['rm', '-rf', '/tmp/codeflow_gist/'])
 	return flow_json
-
-def main2():
-	n = SublimeTextApplication()
-	#n.install(customize=True)
-	#n.get_plugin_mgr().install_plugins(['git@github.com:Microsoft/TypeScript-Sublime-Plugin.git'])
-
-	#b = BracketsApplication()
-	#b.install()
 
 
 def main(args = sys.argv[1:], env=Environment()):
@@ -38,8 +30,7 @@ def main(args = sys.argv[1:], env=Environment()):
 	codeflow_json = load_flow_from_gist(gist_repo, gist_file)
 
 	if args.cmd == 'load':
-		configManager = ConfigManager(codeflow_json)
-		configManager.build_config_file()
+		config_manager.build_config_file(apps_config, codeflow_json)
 		pass	
 	elif args.cmd == 'install':
 		flow = parse(codeflow_json)
